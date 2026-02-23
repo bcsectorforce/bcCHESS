@@ -72,7 +72,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getTopUsers(): Promise<User[]> {
-    return await db.select().from(users).orderBy(desc(users.wins)).limit(10);
+    return await db.select().from(users).orderBy(desc(users.rating)).limit(50);
   }
 
   async createGame(game: InsertGame): Promise<Game> {
