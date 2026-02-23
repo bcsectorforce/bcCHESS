@@ -71,10 +71,13 @@ export default function Play() {
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
       }
 
+      // Mark the game as completed in the DB
       if (dbGameId) {
         updateGame.mutate({ id: dbGameId, updates: { pgn: chess.pgn(), status: 'completed', result } });
       }
-      if (user) {
+
+      // Update user stats - only if we have a user and we haven't updated for this game yet
+      if (user && dbGameId) {
         updateStats.mutate({ id: user.id, result }, {
           onSuccess: (updatedUser) => {
             setUser(updatedUser);
@@ -82,7 +85,7 @@ export default function Play() {
         });
       }
     }
-  }, [fen, chess, gameState, dbGameId, updateGame, updateStats, user, playerColor, setUser]);
+  }, [fen, playerColor]); // Only re-run when FEN or playerColor changes to detect game over
 
   // AI Turn
   useEffect(() => {

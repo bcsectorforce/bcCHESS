@@ -49,19 +49,16 @@ export class DatabaseStorage implements IStorage {
     let actualScore = 0.5;
     
     if (result === 'win') {
-      updateMap.wins = sql`${users.wins} + 1`;
+      updateMap.wins = currentUser.wins + 1;
       actualScore = 1;
     } else if (result === 'loss') {
-      updateMap.losses = sql`${users.losses} + 1`;
+      updateMap.losses = currentUser.losses + 1;
       actualScore = 0;
     } else {
-      updateMap.draws = sql`${users.draws} + 1`;
+      updateMap.draws = currentUser.draws + 1;
       actualScore = 0.5;
     }
 
-    // Don't update rating for draws (as per user request: draw only affecting total games)
-    // Wait, user said: "current rating, win rate, and total games should updated instantly after every game, with a resign being a loss, and a draw only affecting total games, and stale mate not affecting anything but total games played."
-    // This implies rating only changes on win/loss.
     if (result === 'win' || result === 'loss') {
       const newRating = Math.round(currentUser.rating + K * (actualScore - expectedScore));
       updateMap.rating = newRating;
