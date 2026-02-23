@@ -10,9 +10,8 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // Push Notifications Schedule
-  // Every day at 10 AM, 3 PM, and 5 AM (or 5 PM? We'll do 05:00, 10:00, 15:00)
-  cron.schedule('0 5,10,15 * * *', async () => {
+  // Push Notifications Schedule - Simplified to once a day at 5:30 PM (17:30)
+  cron.schedule('30 17 * * *', async () => {
     try {
       const subs = await storage.getAllPushSubscriptions();
       const payload = JSON.stringify({
