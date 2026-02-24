@@ -18,7 +18,7 @@ export default function Home() {
         const registration = await navigator.serviceWorker.ready;
         const subscription = await registration.pushManager.subscribe({
           userVisibleOnly: true,
-          applicationServerKey: 'BKTYLnzy0L8XJXXjfl1J7LFSPSi-1LF6bNecIQrrYjKIwuPBCbrmWyP195VALlrMlU263C-38OTQ2pDNcQaT_Oo'
+          applicationServerKey: 'BE6IzS1vLFa1XpEMKDrjJSrqaFGG49ysATkzhm2Nulr3ol1VVReSvifQidVpEuzyS1VcL80JAUGHXBs2QSbq4Z4'
         });
         
         if (user) {
