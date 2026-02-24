@@ -10,7 +10,7 @@ import { useCreateGame, useUpdateGame } from "@/hooks/use-games";
 import { useUpdateStats } from "@/hooks/use-users";
 import { useUser } from "@/context/user-context";
 
-const DIFFICULTY_DEPTH = { beginner: 2, easy: 6, medium: 10, hard: 15 };
+const DIFFICULTY_DEPTH = { beginner: 1, easy: 6, medium: 10, hard: 15 };
 
 export default function Play() {
   const { user, setUser } = useUser();
