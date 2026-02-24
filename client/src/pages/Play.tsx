@@ -10,7 +10,7 @@ import { useCreateGame, useUpdateGame } from "@/hooks/use-games";
 import { useUpdateStats } from "@/hooks/use-users";
 import { useUser } from "@/context/user-context";
 
-const DIFFICULTY_DEPTH = { easy: 6, medium: 10, hard: 15 };
+const DIFFICULTY_DEPTH = { beginner: 2, easy: 6, medium: 10, hard: 15 };
 
 export default function Play() {
   const { user, setUser } = useUser();
@@ -23,7 +23,7 @@ export default function Play() {
   const [fen, setFen] = useState(chess.fen());
   const [gameState, setGameState] = useState<'setup' | 'playing' | 'gameover'>('setup');
   const [playerColor, setPlayerColor] = useState<"w" | "b">("w");
-  const [difficulty, setDifficulty] = useState<"easy" | "medium" | "hard">("medium");
+  const [difficulty, setDifficulty] = useState<"beginner" | "easy" | "medium" | "hard">("medium");
   const [dbGameId, setDbGameId] = useState<number | null>(null);
 
   const [lastMove, setLastMove] = useState<{from: string, to: string} | null>(null);
@@ -301,8 +301,8 @@ export default function Play() {
 
               <div>
                 <label className="block text-sm font-medium text-muted-foreground mb-3">Difficulty</label>
-                <div className="grid grid-cols-3 gap-3">
-                  {(['easy', 'medium', 'hard'] as const).map(diff => (
+                <div className="grid grid-cols-2 gap-3">
+                  {(['beginner', 'easy', 'medium', 'hard'] as const).map(diff => (
                     <button
                       key={diff}
                       onClick={() => setDifficulty(diff)}

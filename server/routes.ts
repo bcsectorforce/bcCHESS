@@ -10,20 +10,25 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // Push Notifications Schedule - Simplified to once a day at 5:30 PM (17:30)
-  cron.schedule('30 17 * * *', async () => {
+  // Push Notifications Schedule - 5:00 PM and 7:00 PM daily
+  cron.schedule('0 17,19 * * *', async () => {
     try {
       const subs = await storage.getAllPushSubscriptions();
       const payload = JSON.stringify({
-        title: 'Come play on bcCHESS',
-        body: 'Challenge your skills against our AI or other players!'
+        title: 'bcCHESS Reminder',
+        body: 'It\'s time for your daily chess match! Can you beat the AI today?'
       });
       for (const s of subs) {
         try {
           const subObj = JSON.parse(s.subscription);
           await webpush.sendNotification(subObj, payload);
-        } catch (e) {
+        } catch (e: any) {
           console.error("Failed to send push:", e);
+          if (e.statusCode === 410 || e.statusCode === 404) {
+             // Subscription has expired or is no longer valid
+             // Ideally we should remove it from storage, but for now just log it
+             console.log("Removing invalid subscription");
+          }
         }
       }
     } catch (e) {
